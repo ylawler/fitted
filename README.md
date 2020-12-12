@@ -6,11 +6,15 @@
 
 - Virtual Closet 
 - Outfit creator based on your clothing items stored in your virtual closet
-- Share/Post Outfits
-- Follow other Outfit Creators
 - Suggest an outfit based on the weather forcast
 
+## Possible future ideas:
+
+- Share/Post Outfits
+- Follow other Outfit Creators
+
 ## What 'fitted can already do:
+
 - Create an account in Firebase
 - Get the location and weather and display it to the user as a title view
 - Allow the user to choose between different discover criteria such as mood, etc...
