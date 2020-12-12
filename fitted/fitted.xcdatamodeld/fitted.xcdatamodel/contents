@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17511" systemVersion="20B29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Clothing" representedClassName="Clothing" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="maxTemp" optional="YES" attributeType="String"/>
+        <attribute name="minTemp" optional="YES" attributeType="String"/>
+        <attribute name="mood" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="weather" optional="YES" attributeType="String"/>
+        <relationship name="outfits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Outfit" inverseName="clothing" inverseEntity="Outfit"/>
+    </entity>
+    <entity name="Outfit" representedClassName="Outfit" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="maxTemp" optional="YES" attributeType="String"/>
+        <attribute name="minTemp" optional="YES" attributeType="String"/>
+        <attribute name="mood" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="weather" optional="YES" attributeType="String"/>
+        <relationship name="clothing" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Clothing" inverseName="outfits" inverseEntity="Clothing"/>
+    </entity>
+    <elements>
+        <element name="Clothing" positionX="-63" positionY="-18" width="128" height="178"/>
+        <element name="Outfit" positionX="-316.2005004882812" positionY="-219.1198120117188" width="128" height="134"/>
+    </elements>
 </model>
