@@ -33,7 +33,7 @@ let Accessories = Category(name: "Accessories")
 
 public let Categories = [Hats, Neck, UpperBody, Waist, Legs, Feet, Jewelry, Accessories]
 
-let comfortable = Mood(name: "comfortable")
+let Comfortable = Mood(name: "Comfortable")
 let Work = Mood(name: "Work")
 let Bloated = Mood(name: "Bloated")
 let Fancy = Mood(name: "Fancy")
@@ -46,5 +46,5 @@ let Rainy = Weather(name: "Rainy")
 let Cloudy = Weather(name: "Cloudy")
 
 
-public let Moods: [Mood] = [comfortable, Work, Bloated, Fancy, Date, Party, Chill]
+public let Moods: [Mood] = [Comfortable, Work, Bloated, Fancy, Date, Party, Chill]
 public let Weathers: [Weather] = [Sunny, Rainy, Cloudy]

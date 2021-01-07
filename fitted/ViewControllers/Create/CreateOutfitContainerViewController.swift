@@ -13,7 +13,7 @@ struct clothingItem: Equatable {
 
 public let blueColor = UIColor(red: 26/255, green: 48/255, blue: 68/255, alpha: 1)
 
-class CreateOutfitContainerViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class CreateOutfitContainerViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, selectedCollectionViewDelegate {
     
     
     
@@ -75,8 +75,8 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
         collectionView.alwaysBounceVertical = true
         
         
-        
     }
+    
     
     func update(Clothes: [String: [Clothing]]) {
         
@@ -154,6 +154,7 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
         case selectionCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedItemCollectionViewCell.identifier, for: indexPath) as! SelectedItemCollectionViewCell
             cell.configure(clothing: selectedClothes[indexPath.item])
+            cell.delegate = self
             return cell
         default:
             return UICollectionViewCell()
@@ -243,24 +244,24 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
             collectionView.reloadData()
             
             
-            
-            
         case selectionCollectionView:
-
-            let actualIndexPath = self.selectedIndexPaths[indexPath.item]
-
-            if let selectedItem = getItem(forIndexPath: actualIndexPath, clothingItems: self.clothingItems) {
-                print("View selected item: \(actualIndexPath) -> \(String(describing: selectedItem.name))")
-            }
+            
+            print("selected indexPath: \(indexPath.item)")
+            
+            // get cell for indexPath.item
+            let cell = selectionCollectionView.cellForItem(at: indexPath) as! SelectedItemCollectionViewCell
+            cell.configureRemove()
+            self.selectionCollectionView.reloadData()
+            
+//
+//            let actualIndexPath = self.selectedIndexPaths[indexPath.item]
+//
+//            if let selectedItem = getItem(forIndexPath: actualIndexPath, clothingItems: self.clothingItems) {
+//                print("View selected item: \(actualIndexPath) -> \(String(describing: selectedItem.name))")
+//            }
         default:
             print("NOTHING TO DO")
         }
-
-
-
-
-        
-        
     }
     
     
@@ -312,16 +313,21 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "addClothingItemsSegue" {
-            let dest = segue.destination as! AddClothingItemCollectionViewController
+            let dest = segue.destination as! AddClothingItemsViewController
+            dest.selectedClothes = self.selectedClothes
             dest.clothingItems = self.clothingItems
             dest.ParentVC = self
-            dest.collectionView.reloadData()
+//            dest.collectionView.reloadData()
         }
     }
     
     
     @IBAction func addClothingItemTapped(_ sender: UIButton) {
         self.performSegue(withIdentifier: "addClothingItemsSegue", sender: self)
+    }
+    
+    func remove() {
+        print("REMOVE")
     }
     
 

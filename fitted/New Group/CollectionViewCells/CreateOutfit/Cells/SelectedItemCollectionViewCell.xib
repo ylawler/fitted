@@ -26,6 +26,18 @@
                         <color key="textColor" systemColor="systemBackgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6cB-ak-4r3">
+                        <rect key="frame" x="152" y="8" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="6cB-ak-4r3" secondAttribute="height" multiplier="1:1" id="G46-c6-3o1"/>
+                            <constraint firstAttribute="width" constant="24" id="b0R-bM-6Va"/>
+                        </constraints>
+                        <color key="tintColor" systemColor="systemRedColor"/>
+                        <state key="normal" image="x.circle" catalog="system"/>
+                        <connections>
+                            <action selector="didTapRemove:" destination="gTV-IL-0wX" eventType="touchUpInside" id="hfv-cT-dJd"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
@@ -36,9 +48,12 @@
                 <constraint firstItem="ahq-I9-IMv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="Sj4-wX-4hM"/>
                 <constraint firstItem="ahq-I9-IMv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="Toc-NT-BRI"/>
                 <constraint firstItem="aAS-hk-aBq" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="bYz-if-0SD"/>
+                <constraint firstItem="6cB-ak-4r3" firstAttribute="top" secondItem="ahq-I9-IMv" secondAttribute="top" id="wk4-5n-NOo"/>
+                <constraint firstItem="6cB-ak-4r3" firstAttribute="trailing" secondItem="ahq-I9-IMv" secondAttribute="trailing" id="zo6-IS-paa"/>
             </constraints>
             <size key="customSize" width="184" height="135"/>
             <connections>
+                <outlet property="removeButton" destination="6cB-ak-4r3" id="gF5-fb-YGi"/>
                 <outlet property="selectedBackground" destination="ahq-I9-IMv" id="aFi-un-DRs"/>
                 <outlet property="selectedLabel" destination="aAS-hk-aBq" id="hYg-zh-oFM"/>
             </connections>
@@ -46,8 +61,12 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="x.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

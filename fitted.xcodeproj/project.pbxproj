@@ -43,11 +43,12 @@
 		AC3EC0E8256E91C300F00A46 /* WeatherCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3EC0E6256E91C300F00A46 /* WeatherCollectionViewCell.xib */; };
 		AC3EC0EE256E91D100F00A46 /* MoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3EC0EC256E91D100F00A46 /* MoodCollectionViewCell.swift */; };
 		AC3EC0EF256E91D100F00A46 /* MoodCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3EC0ED256E91D100F00A46 /* MoodCollectionViewCell.xib */; };
+		AC805720259B6BB00002A66F /* VirtualClosetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80571F259B6BB00002A66F /* VirtualClosetViewController.swift */; };
+		AC805739259CE44B0002A66F /* AddClothingItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC805738259CE44B0002A66F /* AddClothingItemsViewController.swift */; };
 		AC88B8B42578E45800E6EE55 /* Clothing+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88B8B02578E45700E6EE55 /* Clothing+CoreDataClass.swift */; };
 		AC88B8B52578E45800E6EE55 /* Clothing+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88B8B12578E45700E6EE55 /* Clothing+CoreDataProperties.swift */; };
 		AC88B8B62578E45800E6EE55 /* Outfit+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88B8B22578E45800E6EE55 /* Outfit+CoreDataClass.swift */; };
 		AC88B8B72578E45800E6EE55 /* Outfit+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88B8B32578E45800E6EE55 /* Outfit+CoreDataProperties.swift */; };
-		AC88B8C22578ED0B00E6EE55 /* AddClothingItemCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88B8C12578ED0B00E6EE55 /* AddClothingItemCollectionViewController.swift */; };
 		ACBCA88A256ED87C00DC0FC8 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBCA889256ED87C00DC0FC8 /* Structs.swift */; };
 		ACBCA8A4256F208A00DC0FC8 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBCA8A2256F208A00DC0FC8 /* CategoryCollectionViewCell.swift */; };
 		ACBCA8A5256F208A00DC0FC8 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ACBCA8A3256F208A00DC0FC8 /* CategoryCollectionViewCell.xib */; };
@@ -117,11 +118,12 @@
 		AC3EC0E6256E91C300F00A46 /* WeatherCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherCollectionViewCell.xib; sourceTree = "<group>"; };
 		AC3EC0EC256E91D100F00A46 /* MoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodCollectionViewCell.swift; sourceTree = "<group>"; };
 		AC3EC0ED256E91D100F00A46 /* MoodCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoodCollectionViewCell.xib; sourceTree = "<group>"; };
+		AC80571F259B6BB00002A66F /* VirtualClosetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualClosetViewController.swift; sourceTree = "<group>"; };
+		AC805738259CE44B0002A66F /* AddClothingItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClothingItemsViewController.swift; sourceTree = "<group>"; };
 		AC88B8B02578E45700E6EE55 /* Clothing+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Clothing+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AC88B8B12578E45700E6EE55 /* Clothing+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Clothing+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AC88B8B22578E45800E6EE55 /* Outfit+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Outfit+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AC88B8B32578E45800E6EE55 /* Outfit+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Outfit+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		AC88B8C12578ED0B00E6EE55 /* AddClothingItemCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClothingItemCollectionViewController.swift; sourceTree = "<group>"; };
 		ACBCA889256ED87C00DC0FC8 /* Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		ACBCA8A2256F208A00DC0FC8 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		ACBCA8A3256F208A00DC0FC8 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -200,6 +202,13 @@
 			path = SavedItem;
 			sourceTree = "<group>";
 		};
+		AC215C1225A471BE006EAEB7 /* ToBeDeleted */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ToBeDeleted;
+			sourceTree = "<group>";
+		};
 		AC36F85A25683641002AD590 = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +236,7 @@
 		AC36F86525683641002AD590 /* fitted */ = {
 			isa = PBXGroup;
 			children = (
+				AC215C1225A471BE006EAEB7 /* ToBeDeleted */,
 				ACBCA888256ED86F00DC0FC8 /* Structs */,
 				AC176F1F25689CC1000C391B /* Views */,
 				AC36F89D256837FA002AD590 /* Managers */,
@@ -311,7 +321,7 @@
 				AC3EC0B3256BF7E300F00A46 /* CreateViewController.swift */,
 				AC3EC0C9256BFB2700F00A46 /* CreateOutfitContainerViewController.swift */,
 				AC3EC0CE256BFB3D00F00A46 /* CreateClothingItemContainerViewController.swift */,
-				AC88B8C12578ED0B00E6EE55 /* AddClothingItemCollectionViewController.swift */,
+				AC805738259CE44B0002A66F /* AddClothingItemsViewController.swift */,
 			);
 			path = Create;
 			sourceTree = "<group>";
@@ -372,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				ACBCA8B0257022AC00DC0FC8 /* VirtualClosetCollectionViewController.swift */,
+				AC80571F259B6BB00002A66F /* VirtualClosetViewController.swift */,
 			);
 			path = VirtualCloset;
 			sourceTree = "<group>";
@@ -552,6 +563,8 @@
 				AC88B8B62578E45800E6EE55 /* Outfit+CoreDataClass.swift in Sources */,
 				AC36F86925683641002AD590 /* SceneDelegate.swift in Sources */,
 				AC36F8A625683B9B002AD590 /* DiscoverViewController.swift in Sources */,
+				AC805720259B6BB00002A66F /* VirtualClosetViewController.swift in Sources */,
+				AC805739259CE44B0002A66F /* AddClothingItemsViewController.swift in Sources */,
 				AC3EC0CF256BFB3D00F00A46 /* CreateClothingItemContainerViewController.swift in Sources */,
 				AC88B8B42578E45800E6EE55 /* Clothing+CoreDataClass.swift in Sources */,
 				AC36F8A025683831002AD590 /* LoginViewController.swift in Sources */,
@@ -563,7 +576,6 @@
 				AC3EC096256BE7A700F00A46 /* SavedCollectionViewCell.swift in Sources */,
 				ACC6B398256ECD5900BE33FE /* CoreDataManager.swift in Sources */,
 				AC176F2425689CFE000C391B /* DiscoverCollectionViewCell.swift in Sources */,
-				AC88B8C22578ED0B00E6EE55 /* AddClothingItemCollectionViewController.swift in Sources */,
 				AC176F2C25689D15000C391B /* SavedItemCollectionViewCell.swift in Sources */,
 				AC88B8B52578E45800E6EE55 /* Clothing+CoreDataProperties.swift in Sources */,
 			);

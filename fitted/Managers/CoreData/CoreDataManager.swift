@@ -135,9 +135,8 @@ class CoreDataManager {
         return res
     }
 
-    func itemExists(id: String, entityName: String) -> Bool {//PlayerId: String? = nil, SquadId: String? = nil, RegimentId: String? = nil) -> Bool {
-
-
+    func itemExists(id: String, entityName: String) -> Bool {
+        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "\(entityName)")
         let filter = NSPredicate(format: "id CONTAINS '\(id)'")
         request.predicate = filter
