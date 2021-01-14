@@ -27,10 +27,12 @@ class SelectedItemCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         self.removeButton.isHidden = true
+        
+        
     }
     
-    func configureRemove() {
-        self.removeButton.isHidden = !self.removeButton.isHidden
+    func configureRemove(visible: Bool) {
+        self.removeButton.isHidden = !visible
     }
     
     
@@ -52,7 +54,6 @@ class SelectedItemCollectionViewCell: UICollectionViewCell {
     static func nib() -> UINib {
         return UINib(nibName: "SelectedItemCollectionViewCell", bundle: nil)
     }
-
 
     @IBAction func didTapRemove(_ sender: UIButton) {
         if let del = self.delegate {

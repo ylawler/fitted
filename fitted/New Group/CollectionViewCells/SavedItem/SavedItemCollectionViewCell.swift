@@ -9,6 +9,9 @@ import UIKit
 
 class SavedItemCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
+    
+    var savedOutfits: [Outfit] = []
+    
     @IBOutlet weak var collectionView: UICollectionView!
 
     override func awakeFromNib() {
@@ -31,11 +34,12 @@ class SavedItemCollectionViewCell: UICollectionViewCell, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return savedOutfits.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SavedCollectionViewCell.identifier, for: indexPath) as! SavedCollectionViewCell
+        cell.configure(outfit: savedOutfits[indexPath.item])
         return cell
     }
     

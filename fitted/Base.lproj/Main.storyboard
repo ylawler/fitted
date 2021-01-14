@@ -52,10 +52,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3xA-io-VSf" secondAttribute="trailing" id="wVu-X2-8lh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="Zmt-Pi-8fL">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="DVK-2r-5Hh"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="85v-OS-9CM"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="Zmt-Pi-8fL"/>
                     <connections>
                         <outlet property="collectionView" destination="3xA-io-VSf" id="Aen-5r-Plv"/>
                     </connections>
@@ -465,7 +462,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.59999999999999998" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3aP-G6-9d9">
                                 <rect key="frame" x="8" y="229" width="398" height="95"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1KF-P1-Uf3">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1KF-P1-Uf3">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>

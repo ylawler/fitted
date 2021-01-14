@@ -34,6 +34,7 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
     
     var clothingItems: [String: [Clothing]] = [:]
     var selectedIndexPaths: [IndexPath] = []
+    var selectionViewSelectedIndexPath: IndexPath?
     
     var selectedMoods: [Mood] = []
     var selectedWeathers: [Weather] = []
@@ -154,6 +155,17 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
         case selectionCollectionView:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectedItemCollectionViewCell.identifier, for: indexPath) as! SelectedItemCollectionViewCell
             cell.configure(clothing: selectedClothes[indexPath.item])
+            
+            if let selectionIndexPath = selectionViewSelectedIndexPath {
+                if selectionIndexPath == indexPath {
+                    cell.configureRemove(visible: true)
+                } else {
+                    cell.configureRemove(visible: false)
+                }
+            } else {
+                cell.configureRemove(visible: false)
+            }
+            
             cell.delegate = self
             return cell
         default:
@@ -245,20 +257,24 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
             
             
         case selectionCollectionView:
-            
+
             print("selected indexPath: \(indexPath.item)")
-            
-            // get cell for indexPath.item
-            let cell = selectionCollectionView.cellForItem(at: indexPath) as! SelectedItemCollectionViewCell
-            cell.configureRemove()
+
+            if let selectionIndexPath = self.selectionViewSelectedIndexPath {
+                if selectionIndexPath == indexPath {
+                    print("...setting SVIP -> nil")
+                    self.selectionViewSelectedIndexPath = nil
+                } else {
+                    print("...setting SVIP -> \(indexPath.item)")
+                    self.selectionViewSelectedIndexPath = indexPath
+                }
+            } else {
+                print("...setting SVIP -> \(indexPath.item)")
+                self.selectionViewSelectedIndexPath = indexPath
+            }
+
             self.selectionCollectionView.reloadData()
-            
-//
-//            let actualIndexPath = self.selectedIndexPaths[indexPath.item]
-//
-//            if let selectedItem = getItem(forIndexPath: actualIndexPath, clothingItems: self.clothingItems) {
-//                print("View selected item: \(actualIndexPath) -> \(String(describing: selectedItem.name))")
-//            }
+
         default:
             print("NOTHING TO DO")
         }
@@ -267,12 +283,13 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
     
     
     func resetViews() {
-        imageSelected = false
-        newOutfitImageButton.isSelected = false
-        newOutfitImageButton.backgroundColor = blueColor
-        nameTxtField.text = nil
-        minTxtField.text = nil
-        maxTxtField.text = nil
+        self.imageSelected = false
+        self.newOutfitImageButton.isSelected = false
+        self.newOutfitImageButton.backgroundColor = blueColor
+        self.nameTxtField.text = nil
+        self.minTxtField.text = nil
+        self.maxTxtField.text = nil
+        self.selectionViewSelectedIndexPath = nil
         self.selectedIndexPaths.removeAll()
         self.selectedClothes.removeAll()
         self.collectionView.reloadData()
@@ -283,7 +300,7 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
         if selectedClothes.count != 0 && imageSelected && nameTxtField.text != "" && minTxtField.text != "" && maxTxtField.text != "" {
             print("...save criteria met")
             guard let CDM = self.coreDataManager else { return }
-            CDM.saveNewOutfit(name: nameTxtField.text!, clothes: selectedClothes, moods: selectedMoods, weathers: selectedWeathers) { (successful) in
+            CDM.saveNewOutfit(name: nameTxtField.text!, minTemp: minTxtField.text!, maxTemp: maxTxtField.text!, clothes: selectedClothes, moods: selectedMoods, weathers: selectedWeathers) { (successful) in
                 if successful {
                     print("...successfully saved outfit in CoreData")
                 }
@@ -327,7 +344,14 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
     }
     
     func remove() {
-        print("REMOVE")
+        guard let selectionIndexPath = self.selectionViewSelectedIndexPath else { return }
+        print("REMOVE item at \(selectionIndexPath.item)")
+        
+        self.selectedClothes.remove(at: selectionIndexPath.item)
+        self.selectionViewSelectedIndexPath = nil
+        self.selectionCollectionView.reloadData()
+        
+        
     }
     
 

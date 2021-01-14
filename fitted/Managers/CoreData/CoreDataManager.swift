@@ -12,7 +12,7 @@ class CoreDataManager {
 
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func saveNewOutfit(name: String, clothes: [Clothing], moods: [Mood], weathers: [Weather], completion: (Bool) -> Void) {
+    func saveNewOutfit(name: String, minTemp: String, maxTemp: String, clothes: [Clothing], moods: [Mood], weathers: [Weather], completion: (Bool) -> Void) {
         print("...save outfit into coreData")
         
         let newOutfit = Outfit(context: self.context)
@@ -25,6 +25,8 @@ class CoreDataManager {
         newOutfit.mood = expandMoods(array: moods)
         newOutfit.weather = expandWeathers(array: weathers)
         newOutfit.name = name
+        newOutfit.minTemp = minTemp
+        newOutfit.maxTemp = maxTemp
         
         
         

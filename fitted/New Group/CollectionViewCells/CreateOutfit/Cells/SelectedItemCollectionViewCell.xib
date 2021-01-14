@@ -20,8 +20,8 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ahq-I9-IMv">
                         <rect key="frame" x="8" y="8" width="168" height="119"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAS-hk-aBq">
-                        <rect key="frame" x="70" y="57" width="44.5" height="21"/>
+                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aAS-hk-aBq">
+                        <rect key="frame" x="8" y="8" width="168" height="119"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" systemColor="systemBackgroundColor"/>
                         <nil key="highlightedColor"/>
@@ -47,6 +47,8 @@
                 <constraint firstAttribute="trailing" secondItem="ahq-I9-IMv" secondAttribute="trailing" constant="8" id="CsU-h5-mJn"/>
                 <constraint firstItem="ahq-I9-IMv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="Sj4-wX-4hM"/>
                 <constraint firstItem="ahq-I9-IMv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="Toc-NT-BRI"/>
+                <constraint firstItem="aAS-hk-aBq" firstAttribute="width" secondItem="ahq-I9-IMv" secondAttribute="width" id="WcJ-8x-zP3"/>
+                <constraint firstItem="aAS-hk-aBq" firstAttribute="height" secondItem="ahq-I9-IMv" secondAttribute="height" id="X8F-Io-u48"/>
                 <constraint firstItem="aAS-hk-aBq" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="bYz-if-0SD"/>
                 <constraint firstItem="6cB-ak-4r3" firstAttribute="top" secondItem="ahq-I9-IMv" secondAttribute="top" id="wk4-5n-NOo"/>
                 <constraint firstItem="6cB-ak-4r3" firstAttribute="trailing" secondItem="ahq-I9-IMv" secondAttribute="trailing" id="zo6-IS-paa"/>
