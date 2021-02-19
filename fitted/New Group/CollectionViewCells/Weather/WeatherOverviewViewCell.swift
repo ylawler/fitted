@@ -26,9 +26,9 @@ class WeatherOverviewViewCell: UICollectionViewCell {
         let weatherData = weather.weather[0]
         
         self.weatherImage.image = weatherData.getImage()
-        self.tempLabel.text = String(format: "%.0f°C", weather.main.temp)
+        self.tempLabel.text = String(format: "%.0f°", weather.main.temp)
         
-        self.minMaxLabel.text = String(format: "%.0f°C / %.0f°C", weather.main.temp_max, weather.main.temp_min)
+        self.minMaxLabel.text = String(format: "%.0f° / %.0f°", weather.main.temp_max, weather.main.temp_min)
             
         self.weatherDescription.text = "\(weatherData.description)"
         self.locationLabel.text = "\(weather.sys.country)"

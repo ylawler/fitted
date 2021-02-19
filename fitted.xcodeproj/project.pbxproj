@@ -50,6 +50,8 @@
 		AC3EC0E8256E91C300F00A46 /* WeatherCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3EC0E6256E91C300F00A46 /* WeatherCollectionViewCell.xib */; };
 		AC3EC0EE256E91D100F00A46 /* MoodCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3EC0EC256E91D100F00A46 /* MoodCollectionViewCell.swift */; };
 		AC3EC0EF256E91D100F00A46 /* MoodCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC3EC0ED256E91D100F00A46 /* MoodCollectionViewCell.xib */; };
+		AC50996F25DF9D760080E4DD /* HourViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50996D25DF9D760080E4DD /* HourViewCell.swift */; };
+		AC50997025DF9D760080E4DD /* HourViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AC50996E25DF9D760080E4DD /* HourViewCell.xib */; };
 		AC7035C725BD89B2008BB707 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7035C625BD89B2008BB707 /* ColorScheme.swift */; };
 		AC7035CC25BD8A3B008BB707 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7035CB25BD8A3B008BB707 /* ImageViewController.swift */; };
 		AC805720259B6BB00002A66F /* VirtualClosetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80571F259B6BB00002A66F /* VirtualClosetViewController.swift */; };
@@ -136,6 +138,8 @@
 		AC3EC0E6256E91C300F00A46 /* WeatherCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherCollectionViewCell.xib; sourceTree = "<group>"; };
 		AC3EC0EC256E91D100F00A46 /* MoodCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodCollectionViewCell.swift; sourceTree = "<group>"; };
 		AC3EC0ED256E91D100F00A46 /* MoodCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoodCollectionViewCell.xib; sourceTree = "<group>"; };
+		AC50996D25DF9D760080E4DD /* HourViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourViewCell.swift; sourceTree = "<group>"; };
+		AC50996E25DF9D760080E4DD /* HourViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourViewCell.xib; sourceTree = "<group>"; };
 		AC7035C625BD89B2008BB707 /* ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
 		AC7035CB25BD8A3B008BB707 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		AC80571F259B6BB00002A66F /* VirtualClosetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualClosetViewController.swift; sourceTree = "<group>"; };
@@ -465,6 +469,8 @@
 				AC128B8325DEA56C00F93DD5 /* HourlyWeatherViewCell.xib */,
 				AC128B8925DEA58B00F93DD5 /* WeatherForecastViewCell.swift */,
 				AC128B8A25DEA58B00F93DD5 /* WeatherForecastViewCell.xib */,
+				AC50996D25DF9D760080E4DD /* HourViewCell.swift */,
+				AC50996E25DF9D760080E4DD /* HourViewCell.xib */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -586,6 +592,7 @@
 				AC3EC097256BE7A700F00A46 /* SavedCollectionViewCell.xib in Resources */,
 				AC36F86E25683641002AD590 /* Main.storyboard in Resources */,
 				AC3EC0D6256C0DC100F00A46 /* SelectedItemCollectionViewCell.xib in Resources */,
+				AC50997025DF9D760080E4DD /* HourViewCell.xib in Resources */,
 				ACBCA8BC257023F100DC0FC8 /* VirtualClosetCollectionViewCell.xib in Resources */,
 				AC128B7E25DEA16700F93DD5 /* WeatherOverviewViewCell.xib in Resources */,
 				AC3EC0DD256C33A200F00A46 /* ItemCollectionViewCell.xib in Resources */,
@@ -621,6 +628,7 @@
 				ACBCA88A256ED87C00DC0FC8 /* Structs.swift in Sources */,
 				ACBCA8A4256F208A00DC0FC8 /* CategoryCollectionViewCell.swift in Sources */,
 				AC3EC0BD256BFAAE00F00A46 /* CreateOutfitCollectionViewCell.swift in Sources */,
+				AC50996F25DF9D760080E4DD /* HourViewCell.swift in Sources */,
 				AC3EC0DC256C33A200F00A46 /* ItemCollectionViewCell.swift in Sources */,
 				AC88B8B72578E45800E6EE55 /* Outfit+CoreDataProperties.swift in Sources */,
 				AC36F86725683641002AD590 /* AppDelegate.swift in Sources */,
