@@ -12,7 +12,7 @@ class CoreDataManager {
 
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
-    func saveNewOutfit(name: String, minTemp: String, maxTemp: String, clothes: [Clothing], moods: [Mood], weathers: [Weather], completion: (Bool) -> Void) {
+    func saveNewOutfit(name: String, minTemp: String, maxTemp: String, clothes: [Clothing], moods: [fittedMood], weathers: [fittedWeather], completion: (Bool) -> Void) {
         print("...save outfit into coreData")
         
         let newOutfit = Outfit(context: self.context)
@@ -56,12 +56,7 @@ class CoreDataManager {
                 } else {
                     result.updateValue([clothing], forKey: clothing.category!)
                 }
-                
-                
             }
-            
-            
-            print("loaded clothes: \(clothes)")
             completion(true, result)
             
             
@@ -78,18 +73,19 @@ class CoreDataManager {
         do {
             outfits = try context.fetch(Outfit.fetchRequest()) as! [Outfit]
             
-            print("loaded outfits: \(outfits)")
+            
             completion(true, outfits)
             
         } catch let err {
+            print("Error loading Outfits: \(err)")
             completion(false, outfits)
-            print(err)
+            
         }
     }
     
     
 
-    func saveNewClothing(name: String, minTemp: String, maxTemp: String, moods: [Mood], weathers: [Weather], img: UIImage, category: Category, completion: (Bool, Clothing?) -> Void) {
+    func saveNewClothing(name: String, minTemp: String, maxTemp: String, moods: [fittedMood], weathers: [fittedWeather], img: UIImage, category: fittedCategory, completion: (Bool, Clothing?) -> Void) {
         print("...save clothing into coreData")
         
         let newClothing = Clothing(context: self.context)
@@ -113,7 +109,7 @@ class CoreDataManager {
         }
     }
     
-    func expandMoods(array: [Mood]) -> String {
+    func expandMoods(array: [fittedMood]) -> String {
         var res = ""
         for mood in array {
             if mood == array.last {
@@ -125,7 +121,7 @@ class CoreDataManager {
         return res
     }
     
-    func expandWeathers(array: [Weather]) -> String {
+    func expandWeathers(array: [fittedWeather]) -> String {
         var res = ""
         for weather in array {
             if weather == array.last {

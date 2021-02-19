@@ -51,7 +51,7 @@ class AddClothingItemsViewController: UIViewController, UICollectionViewDelegate
     */
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return Categories.count
+        return fittedCategories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -152,7 +152,7 @@ class AddClothingItemsViewController: UIViewController, UICollectionViewDelegate
         guard let items = self.clothingItems else { return .zero }
         // get category for section
         let category = self.categoryFor(section: section)
-        if let itemsForSection = items[category.name] {
+        if let _ = items[category.name] {
             return CGSize(width: collectionView.frame.width, height: headerHeight)
         } else {
             return .zero
@@ -162,12 +162,8 @@ class AddClothingItemsViewController: UIViewController, UICollectionViewDelegate
     
     func saveSelectedClothes() {
         if let parentVC = self.ParentVC {
-            print("WE HAVE A PARENT VC")
-            print("selected: \(selectedClothes)")
             parentVC.selectedClothes = self.selectedClothes
             parentVC.selectionCollectionView.reloadData()
-        } else {
-            print("SOMETHING WENT WRONG WITH THE VC")
         }
     }
     

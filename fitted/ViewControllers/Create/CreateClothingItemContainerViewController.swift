@@ -24,7 +24,7 @@ class CreateClothingItemContainerViewController: UIViewController, UICollectionV
     @IBOutlet weak var collectionView: UICollectionView!
     
     
-    var createCategory: Category?
+    var createCategory: fittedCategory?
     
    
     
@@ -32,8 +32,8 @@ class CreateClothingItemContainerViewController: UIViewController, UICollectionV
     
     
     var selectedIndexPaths: [IndexPath] = []
-    var selectedWeathers: [Weather] = []
-    var selectedMoods: [Mood] = []
+    var selectedWeathers: [fittedWeather] = []
+    var selectedMoods: [fittedMood] = []
 //    var selectedCategory: String = ""
     var imageSelected: Bool = false
     
@@ -80,12 +80,12 @@ class CreateClothingItemContainerViewController: UIViewController, UICollectionV
         switch section {
         case 0:
             // Weather
-            return Weathers.count
+            return fittedWeathers.count
         case 1:
             // Mood
-            return Moods.count
+            return fittedMoods.count
         case 2:
-            return Categories.count
+            return fittedCategories.count
         default:
             return 0
         }
@@ -162,29 +162,29 @@ class CreateClothingItemContainerViewController: UIViewController, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if indexPath.section == 0 {
-            if selectedWeathers.contains(Weathers[indexPath.item]) {
+            if selectedWeathers.contains(fittedWeathers[indexPath.item]) {
                 // remove
-                if let idx = selectedWeathers.firstIndex(of: Weathers[indexPath.item]) {
+                if let idx = selectedWeathers.firstIndex(of: fittedWeathers[indexPath.item]) {
                     selectedWeathers.remove(at: idx)
                 }
             } else {
-                selectedWeathers.append(Weathers[indexPath.item])
+                selectedWeathers.append(fittedWeathers[indexPath.item])
             }
         } else if indexPath.section == 1 {
-            if selectedMoods.contains(Moods[indexPath.item]) {
+            if selectedMoods.contains(fittedMoods[indexPath.item]) {
                 // remove
-                if let idx = selectedMoods.firstIndex(of: Moods[indexPath.item]) {
+                if let idx = selectedMoods.firstIndex(of: fittedMoods[indexPath.item]) {
                     selectedMoods.remove(at: idx)
                 }
             } else {
-                selectedMoods.append(Moods[indexPath.item])
+                selectedMoods.append(fittedMoods[indexPath.item])
             }
         } else if indexPath.section == 2 {
-            if createCategory == Categories[indexPath.item] {
+            if createCategory == fittedCategories[indexPath.item] {
                 // remove
                 createCategory = nil
             } else {
-                createCategory = Categories[indexPath.item]
+                createCategory = fittedCategories[indexPath.item]
             }
         }
         if indexPath.section != 2 {
@@ -223,9 +223,6 @@ class CreateClothingItemContainerViewController: UIViewController, UICollectionV
             
             print("...save criteria met")
             
-            
-            
-            
             guard let CDM = self.coreDataManager else { return }
             
             print("...we have a CDM")
@@ -254,8 +251,8 @@ class CreateClothingItemContainerViewController: UIViewController, UICollectionV
                 
              */
             self.resetViews()
-            
         }
+        
     }
     
     

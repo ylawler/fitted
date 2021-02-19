@@ -14,7 +14,7 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="at9-Ug-kZp">
-                    <rect key="frame" x="8" y="8" width="304" height="34"/>
+                    <rect key="frame" x="8" y="4" width="51.5" height="42"/>
                     <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="19"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -23,14 +23,13 @@
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <constraints>
                 <constraint firstItem="at9-Ug-kZp" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="8" id="0Vd-eu-5mb"/>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="at9-Ug-kZp" secondAttribute="bottom" constant="8" id="NDg-uD-vyG"/>
-                <constraint firstAttribute="trailing" secondItem="at9-Ug-kZp" secondAttribute="trailing" constant="8" id="YKQ-up-vsO"/>
-                <constraint firstItem="at9-Ug-kZp" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="8" id="azX-Q1-uye"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="at9-Ug-kZp" secondAttribute="bottom" constant="4" id="NDg-uD-vyG"/>
+                <constraint firstItem="at9-Ug-kZp" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="4" id="azX-Q1-uye"/>
             </constraints>
             <connections>
                 <outlet property="headerTitle" destination="at9-Ug-kZp" id="zb2-Dw-iTU"/>
             </connections>
-            <point key="canvasLocation" x="14" y="93"/>
+            <point key="canvasLocation" x="13.043478260869566" y="92.410714285714278"/>
         </collectionReusableView>
     </objects>
 </document>

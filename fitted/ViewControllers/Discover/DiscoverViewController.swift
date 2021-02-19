@@ -6,11 +6,20 @@
 //
 
 import UIKit
+import CoreLocation
 
-class DiscoverViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class DiscoverViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, CLLocationManagerDelegate, DiscoverDelegate {
+    
+    
+    func didSelectDiscover(indexPath: IndexPath) {
+        discover.selectedCategory(forIndexPath: indexPath)
+        print("selected protocol: \(String(describing: discover.selectedCategory))")
+        
+        self.performSegue(withIdentifier: "showDiscoverSegue", sender: self)
+    }
+    
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
     
     let headerHeight: CGFloat = 42
     let discoverSavedRatio: CGFloat = 0.15
@@ -21,7 +30,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
     let titleViewHeight: CGFloat = 55
     let titleViewWidth: CGFloat = 218
     
-    // MARK: - NavigationBar
+    /// NavigationBar Views
     let customTitleView = UIView()
     let weatherImage = UIImageView()
     let temperatureLabel = UILabel()
@@ -29,54 +38,115 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
     let descriptionLabel = UILabel()
     let locationLabel = UILabel()
     
+    /// Location Manager and Weather variables
+    var coordinates: CLLocation?
+    var weather: currentWeather?
+    var locationManager = CLLocationManager()
+    
     
     let coreDataManager = CoreDataManager()
+    
+    var refresher: UIRefreshControl?
 
+    let discover = Discover()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupNavigationBar()
-        
-        
-        
-        
-        
+        setupNavigationBar()
+        setupLocation()
+        updateWeatherForLocation()
 
-        // Do any additional setup after loading the view.
-//        self.navigationItem.title = "Discover"
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
-        self.collectionView.alwaysBounceVertical = true
+        setupCollectionView()
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for:.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.layoutIfNeeded()
         
-        self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "reuseidentifier")
-        self.collectionView.register(SavedItemCollectionViewCell.nib(), forCellWithReuseIdentifier: SavedItemCollectionViewCell.identifier)
-        self.collectionView.register(DiscoverCollectionViewCell.nib(), forCellWithReuseIdentifier: DiscoverCollectionViewCell.identifier)
         
-        self.collectionView.register(sectionHeaderReuseableView.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: sectionHeaderReuseableView.identifier)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        coreDataManager.loadOutfits { (successfully, outfits) in
-            if successfully {
-                savedOutfits = outfits
+    @objc func refreshPage() {
+        print("REFRESH")
+//        updateWeatherForLocation()
+        
+        // TODO: - Analyze weather and find outfits matching those conditions
+        
+        analyzeWeather { (successful, outfits) in
+            if successful {
+                print("...successfully analyzed weather and returned outfits")
+                self.savedOutfits = outfits
                 self.collectionView.reloadData()
+                self.refresher?.endRefreshing()
+            } else {
+                print("...Error analyzing weather and returning outfits")
             }
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        refreshPage()
+    }
+    
+    // MARK: - Weather Analyzing
+    func analyzeWeather(completion: (Bool, [Outfit]) -> Void) {
+        /*
+         Analyze the weather and find outfits that match it
+         
+         -> Currently returns all saved outfits
+         
+         */
+        
+        guard let weather = self.weather else { return }
+        
+        var discoverOutfits: [Outfit] = []
+        
+        
+        // Analyze saved outfits
+        coreDataManager.loadOutfits { (successfully, outfits) in
+            if successfully {
+                for outfit in outfits {
+                    if outfit.minTemp != nil && outfit.maxTemp != nil {
+                        if let minTemp = Double(outfit.minTemp!), let maxTemp = Double(outfit.maxTemp!) {
+                            if weather.main.temp > minTemp && weather.main.temp < maxTemp {
+                                print("...Temperautre condition met")
+                                discoverOutfits.append(outfit)
+                            }
+                        }
+                    }
+                }
+                completion(successfully, discoverOutfits)
+            } else {
+                completion(false, [])
+            }
+        }
+        
+        // Create outfits
+        
+        
+        
+        
+        
+    }
+    
 
-    /*
+  
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "showDiscoverSegue" {
+            let dest = segue.destination as! CategoryViewController
+            dest.navigationItem.title = discover.selectedCategory?.description
+            dest.view.backgroundColor = discover.selectedCategory?.image
+        } else if segue.identifier == "showWeatherSegue" {
+            let dest = segue.destination as! WeatherViewController
+            dest.navigationItem.title = "Weather"
+            dest.Weather = self.weather
+        }
+        
     }
-    */
+    
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
@@ -90,6 +160,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscoverCollectionViewCell.identifier, for: indexPath) as! DiscoverCollectionViewCell
+            cell.delegate = self
             return cell
         } else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SavedItemCollectionViewCell.identifier, for: indexPath) as! SavedItemCollectionViewCell
@@ -126,11 +197,127 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
         return CGSize(width: collectionView.frame.width, height: headerHeight)
     }
     
+    
+
+    // MARK: - Location and Weather
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if !locations.isEmpty {
+            print("locations is not empty and current location is nil, updating location")
+            self.coordinates = locations.first
+            self.locationManager.stopUpdatingLocation()
+            self.updateWeatherForLocation()
+            // TODO: - update weather information
+            
+        }
+    }
+    
+    // Location
+    func setupLocation() {
+        print("Setting up location")
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            self.locationManager.delegate = self
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            self.locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func updateWeatherForLocation() {
+        // Check if coordinates has a value, else return
+        
+        print("UPDATING LOCATION AND WEATHER")
+        guard let coordinates = self.coordinates else { return }
+        
+        // Get the longitude and latitude values
+        let longitude = coordinates.coordinate.longitude
+        let latitude = coordinates.coordinate.latitude
+        
+        // Create url for api request
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=220d7f41d643c19c77f1ba5f4d96ed60&units=metric") else { return }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            
+            guard let data = data, error == nil else { return }
+            
+            var json: currentWeather?
+            do {
+                json = try JSONDecoder().decode(currentWeather.self, from: data)
+            } catch {
+                print("Error: \(error)")
+            }
+            
+            // Safely unwrap the json file and append to models
+            guard let result = json else { return }
+            
+            self.weather = result
+            
+            
+            // reload tableView
+            DispatchQueue.main.async {
+                // Do something here
+                self.weatherImage.image = result.weather[0].getImage()
+                self.temperatureLabel.text = "\(Int(result.main.temp))°C"
+                self.descriptionLabel.text = "\(result.weather[0].main)"
+                self.locationLabel.text = " \(result.name)"
+                self.rangeLabel.text = "\(Int(result.main.temp_min))°C / \(Int(result.main.temp_max))°C"
+                self.analyzeWeather { (successful, outfits) in
+                    if successful {
+                        self.savedOutfits = outfits
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+        }.resume()
+    }
+    
+    
+    
+}
+
+
+
+
+
+
+// MARK: - Extension: Setup Functions
+extension DiscoverViewController {
+    
+    
+    // MARK: - CollectionView
+    fileprivate func setupCollectionView() {
+        // Do any additional setup after loading the view.
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.alwaysBounceVertical = true
+        
+        
+        
+        self.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "reuseidentifier")
+        self.collectionView.register(SavedItemCollectionViewCell.nib(), forCellWithReuseIdentifier: SavedItemCollectionViewCell.identifier)
+        self.collectionView.register(DiscoverCollectionViewCell.nib(), forCellWithReuseIdentifier: DiscoverCollectionViewCell.identifier)
+        
+        self.collectionView.register(sectionHeaderReuseableView.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: sectionHeaderReuseableView.identifier)
+        
+        self.refresher = UIRefreshControl()
+        self.refresher?.addTarget(self, action: #selector(refreshPage), for: .valueChanged)
+        self.collectionView.refreshControl = self.refresher
+    }
+    
+    
+    // MARK: - NavigationBar
     fileprivate func setupNavigationBar() {
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for:.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.layoutIfNeeded()
+        
+        
         let titleViewWidth: CGFloat = 200
         let titleViewHeight: CGFloat = 44
         
-        let labelRatio: CGFloat = 0.5
+        let labelRatio: CGFloat = 0.4
         
         
         // Define the height and width of the customTitleView
@@ -147,11 +334,11 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
         weatherImage.widthAnchor.constraint(equalToConstant: titleViewHeight).isActive = true
         weatherImage.heightAnchor.constraint(equalToConstant: titleViewHeight).isActive = true
         weatherImage.centerYAnchor.constraint(equalTo: customTitleView.centerYAnchor).isActive = true
-        weatherImage.leadingAnchor.constraint(equalTo: customTitleView.leadingAnchor, constant: 32).isActive = true
+        weatherImage.leadingAnchor.constraint(equalTo: customTitleView.leadingAnchor, constant: 0).isActive = true
         
         // Any weather image setups done here
         weatherImage.contentMode = .scaleAspectFit
-        weatherImage.backgroundColor = .cyan
+//        weatherImage.backgroundColor = .cyan
         
         
         // Add the temperature label to the titleView and define constraints
@@ -164,7 +351,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
         
         // Any temperature label setup done here
         temperatureLabel.font = UIFont.systemFont(ofSize: 20, weight: .thin)
-        temperatureLabel.backgroundColor = .systemPink
+//        temperatureLabel.backgroundColor = .systemPink
         
         // Add the range label to the titleView and define constraints
         customTitleView.addSubview(rangeLabel)
@@ -175,8 +362,8 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
         rangeLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor).isActive = true
         
         // Any temperature label setup done here
-        rangeLabel.font = UIFont.systemFont(ofSize: 13, weight: .ultraLight)
-        rangeLabel.backgroundColor = .orange
+        rangeLabel.font = UIFont.systemFont(ofSize: 11, weight: .ultraLight)
+//        rangeLabel.backgroundColor = .orange
         
         // Add the description label to the titleView and define any constraints
         customTitleView.addSubview(descriptionLabel)
@@ -187,7 +374,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
         descriptionLabel.topAnchor.constraint(equalTo: customTitleView.topAnchor).isActive = true
         
         // Any description label setup done here
-        //        descriptionLabel.backgroundColor = .systemPink
+//        descriptionLabel.backgroundColor = .systemPink
         descriptionLabel.font = UIFont.systemFont(ofSize: 20, weight: .thin)
         
         customTitleView.addSubview(locationLabel)
@@ -197,7 +384,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
         locationLabel.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor).isActive = true
         locationLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor).isActive = true
         
-        //        locationLabel.backgroundColor = .red
+//        locationLabel.backgroundColor = .red
         locationLabel.font = UIFont.systemFont(ofSize: 13, weight: .ultraLight)
         
         
@@ -210,148 +397,7 @@ class DiscoverViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     @objc func titleViewTapped() {
         print("Show full temperature desc")
-//        self.performSegue(withIdentifier: "showFullWeatherSegue", sender: self)
+        self.performSegue(withIdentifier: "showWeatherSegue", sender: self)
     }
-    
-
 }
 
-
-/*
- 
- // MARK: - Location and Weather
- func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-     if !locations.isEmpty {
-         print("locations is not empty and current location is nil, updating location")
-         self.coordinates = locations.first
-         self.locationManager.stopUpdatingLocation()
-         self.updateWeatherForLocation()
-         // TODO: - update weather information
-         
-     }
- }
- 
- // Location
- func setupLocation() {
-     print("Setting up location")
-     // Ask for Authorisation from the User.
-     self.locationManager.requestAlwaysAuthorization()
-     self.locationManager.requestWhenInUseAuthorization()
-     if CLLocationManager.locationServicesEnabled() {
-         self.locationManager.delegate = self
-         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-         self.locationManager.startUpdatingLocation()
-     }
- }
- 
- func updateWeatherForLocation() {
-     // Check if coordinates has a value, else return
-     
-     print("UPDATING LOCATION AND WEATHER")
-     guard let coordinates = self.coordinates else { return }
-     
-     // Get the longitude and latitude values
-     let longitude = coordinates.coordinate.longitude
-     let latitude = coordinates.coordinate.latitude
-     
-     // Create url for api request
-     guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=220d7f41d643c19c77f1ba5f4d96ed60&units=metric") else { return }
-     
-     URLSession.shared.dataTask(with: url) { (data, response, error) in
-         guard let data = data, error == nil else { return }
-         var json: currentWeather?
-         do {
-             json = try JSONDecoder().decode(currentWeather.self, from: data)
-         } catch {
-             print("Error: \(error)")
-         }
-         
-         // Safely unwrap the json file and append to models
-         guard let result = json else { return }
-         
-         self.weather = result
-         
-         
-         // reload tableView
-         DispatchQueue.main.async {
-             // Do something here
-             self.weatherImage.image = self.getImage(for: result.weather[0].icon)
-             self.temperatureLabel.text = "\(Int(result.main.temp))°C"
-             self.descriptionLabel.text = "\(result.weather[0].main)"
-             self.locationLabel.text = " \(result.name)"
-             self.rangeLabel.text = "\(Int(result.main.temp_min))°C/\(Int(result.main.temp_max))°C"
-         }
-     }.resume()
- }
- 
- // MARK: - JSON Structs
- // Create Struct objects from all the json keys
- struct currentWeather: Codable {
-     let coord: Coord
-     let weather: [Weather]
-     let base: String
-     let main: Main
-     let wind: Wind
-     let clouds: Clouds
-     let dt: Int
-     let sys: Sys
-     let timezone: Int
-     let id: Int
-     let name: String
-     let cod: Int
- }
- 
- struct Weather: Codable {
-     let id: Int
-     let main: String
-     let description: String
-     let icon: String
- }
- 
- struct Main: Codable {
-     let temp: Double
-     let feels_like: Double
-     let temp_min: Double
-     let temp_max: Double
-     let pressure: Double
-     let humidity: Double
- }
- 
- struct Wind: Codable {
-     let speed: Double
-     let deg: Double
- }
- 
- struct Clouds: Codable {
-     let all: Int
- }
- 
- struct Sys: Codable {
-     let type: Int
-     let id: Int
-     //    let message: Float
-     let country: String
-     let sunrise: Double
-     let sunset: Double
- }
- 
- struct Coord: Codable {
-     let lon: Float
-     let lat: Float
- }
- 
- func getImage(for icon: String) -> UIImage {
-     var iconImage = UIImage()
-     let url = "https://openweathermap.org/img/wn/\(icon)@2x.png"
-     
-     guard let iconURL = URL(string: url) else { return iconImage }
-     
-     if let data = try? Data(contentsOf: iconURL) {
-         iconImage = UIImage(data: data)!
-     }
-     return iconImage
- }
- 
- 
- 
- */

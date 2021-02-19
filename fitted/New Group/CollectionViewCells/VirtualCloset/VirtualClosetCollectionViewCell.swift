@@ -16,6 +16,28 @@ class VirtualClosetCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+//        itemBackground.layer.shadowRadius = 10
+//        itemBackground.layer.shadowColor = UIColor.black.cgColor
+//        itemBackground.layer.shadowOffset = .zero
+//        itemBackground.layer.shadowOpacity = 1
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        itemBackground.layer.borderWidth = 1
+        itemBackground.layer.borderColor = blueColor.cgColor
+        
+//        itemBackground.layer.masksToBounds = true
+//
+//        itemBackground.layer.shadowRadius = 2
+//        itemBackground.layer.shadowColor = UIColor.black.cgColor
+//        itemBackground.layer.shadowOffset = .zero
+//        itemBackground.layer.shadowOpacity = 1
+        
+        itemBackground.clipsToBounds = true
+        
         itemBackground.layer.cornerRadius = 12
         itemBackground.backgroundColor = blueColor
     }

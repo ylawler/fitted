@@ -7,11 +7,19 @@
 
 import UIKit
 
+protocol DiscoverDelegate {
+    func didSelectDiscover(indexPath: IndexPath)
+}
+
 class DiscoverCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     let discoverRatio: CGFloat = 1.75
+    
+    let discover = Discover()
+    
+    var delegate: DiscoverDelegate? = nil
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,11 +44,21 @@ class DiscoverCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return discover.getCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscoverByCollectionViewCell.identifier, for: indexPath) as! DiscoverByCollectionViewCell
+        
+        
+        
+        
+        if let discoverCategory = discover.getDiscoverCategory(forIndexPath: indexPath) {
+            cell.discoverLabel.text = discoverCategory.description
+            cell.discoverBackground.backgroundColor = discoverCategory.image
+        }
+        
+        
         return cell
     }
 
@@ -50,5 +68,11 @@ class DiscoverCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let del = delegate {
+            del.didSelectDiscover(indexPath: indexPath)
+        }
     }
 }

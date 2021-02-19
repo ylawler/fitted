@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,13 +16,16 @@
                 <rect key="frame" x="0.0" y="0.0" width="378" height="271"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ddm-i6-GmS">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pantsStock" translatesAutoresizingMaskIntoConstraints="NO" id="ddm-i6-GmS">
                         <rect key="frame" x="8" y="8" width="362" height="255"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V6P-xI-k7T">
-                        <rect key="frame" x="167" y="125" width="44.5" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V6P-xI-k7T">
+                        <rect key="frame" x="16" y="223" width="342" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="GjA-sa-4sd"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                        <color key="textColor" systemColor="systemBackgroundColor"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -31,10 +33,11 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstItem="ddm-i6-GmS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="Hjb-XN-XdL"/>
-                <constraint firstItem="V6P-xI-k7T" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="J8h-M8-ZmE"/>
+                <constraint firstItem="V6P-xI-k7T" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="JrL-gU-Cu8"/>
                 <constraint firstAttribute="trailing" secondItem="ddm-i6-GmS" secondAttribute="trailing" constant="8" id="L8j-ap-FI7"/>
+                <constraint firstAttribute="trailing" secondItem="V6P-xI-k7T" secondAttribute="trailing" constant="20" id="SSz-ff-qNs"/>
                 <constraint firstItem="ddm-i6-GmS" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="eqH-k1-mry"/>
-                <constraint firstItem="V6P-xI-k7T" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="hfm-xW-W5y"/>
+                <constraint firstAttribute="bottom" secondItem="V6P-xI-k7T" secondAttribute="bottom" constant="16" id="jGw-qE-DFt"/>
                 <constraint firstAttribute="bottom" secondItem="ddm-i6-GmS" secondAttribute="bottom" constant="8" id="zR9-tP-Yoj"/>
             </constraints>
             <size key="customSize" width="378" height="271"/>
@@ -46,8 +49,6 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="pantsStock" width="1024" height="1024"/>
     </resources>
 </document>

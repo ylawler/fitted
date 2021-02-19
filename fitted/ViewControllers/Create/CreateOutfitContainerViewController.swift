@@ -36,17 +36,21 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
     var selectedIndexPaths: [IndexPath] = []
     var selectionViewSelectedIndexPath: IndexPath?
     
-    var selectedMoods: [Mood] = []
-    var selectedWeathers: [Weather] = []
+    var selectedMoods: [fittedMood] = []
+    var selectedWeathers: [fittedWeather] = []
     
     var selectedClothes: [Clothing] = []
     var imageSelected: Bool = false
     
     let sections = ["Weather", "Mood"]
     
+    var notificationView: UILabel?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
+//        setupSaveNotification()
         
         newOutfitImageButton.layer.cornerRadius = 12
         newOutfitImageButton.backgroundColor = blueColor
@@ -76,6 +80,10 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
         collectionView.alwaysBounceVertical = true
         
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+//        displaySaveNotification()
     }
     
     
@@ -109,9 +117,9 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
             
             
             if section == 0 {
-                return Weathers.count
+                return fittedWeathers.count
             } else {
-                return Moods.count
+                return fittedMoods.count
             }
             
 
@@ -225,22 +233,22 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
         case self.collectionView:
             
             if indexPath.section == 0 {
-                if selectedWeathers.contains(Weathers[indexPath.item]) {
+                if selectedWeathers.contains(fittedWeathers[indexPath.item]) {
                     // remove
-                    if let idx = selectedWeathers.firstIndex(of: Weathers[indexPath.item]) {
+                    if let idx = selectedWeathers.firstIndex(of: fittedWeathers[indexPath.item]) {
                         selectedWeathers.remove(at: idx)
                     }
                 } else {
-                    selectedWeathers.append(Weathers[indexPath.item])
+                    selectedWeathers.append(fittedWeathers[indexPath.item])
                 }
             } else if indexPath.section == 1 {
-                if selectedMoods.contains(Moods[indexPath.item]) {
+                if selectedMoods.contains(fittedMoods[indexPath.item]) {
                     // remove
-                    if let idx = selectedMoods.firstIndex(of: Moods[indexPath.item]) {
+                    if let idx = selectedMoods.firstIndex(of: fittedMoods[indexPath.item]) {
                         selectedMoods.remove(at: idx)
                     }
                 } else {
-                    selectedMoods.append(Moods[indexPath.item])
+                    selectedMoods.append(fittedMoods[indexPath.item])
                 }
             }
             
@@ -296,6 +304,12 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
         self.selectionCollectionView.reloadData()
     }
     
+    func displaySaverAlert(title: String, message: String?, style: UIAlertController.Style, action: UIAlertAction) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
+        alertController.addAction(action)
+        self.present(alertController, animated: true)
+    }
+    
     func saveNewOutfit(completion: (Bool, Outfit) -> Void) {
         if selectedClothes.count != 0 && imageSelected && nameTxtField.text != "" && minTxtField.text != "" && maxTxtField.text != "" {
             print("...save criteria met")
@@ -303,10 +317,52 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
             CDM.saveNewOutfit(name: nameTxtField.text!, minTemp: minTxtField.text!, maxTemp: maxTxtField.text!, clothes: selectedClothes, moods: selectedMoods, weathers: selectedWeathers) { (successful) in
                 if successful {
                     print("...successfully saved outfit in CoreData")
+                    displaySaverAlert(title: "Saved \(nameTxtField.text!)!", message: "You can find your outift in your wardrobe :)", style: .alert, action: UIAlertAction(title: "continue", style: .default, handler: nil))
                 }
             }
+        } else {
+            print("...Error saving Outfit -> Criteria not met")
         }
+        
+        resetViews()
     }
+    
+//    var notificationView: UIView {
+//        let view = UIView()
+//        return view
+//    }
+    
+//    func setupSaveNotification() {
+//
+//        let notificationHeight: CGFloat = self.collectionView.frame.height * 0.2
+//
+//        let notificationFrame = CGRect(x: 0, y: self.view.frame.maxY - 64, width: self.collectionView.frame.width, height: notificationHeight)
+//        let notification = UILabel(frame: notificationFrame)
+//
+//        self.notificationView = notification
+//        self.notificationView!.layer.cornerRadius = 12
+//        self.notificationView!.layer.borderWidth = 1
+//        self.notificationView!.layer.borderColor = blueColor.cgColor
+//        self.notificationView!.backgroundColor = .systemBackground
+//
+//        self.view.addSubview(notificationView!)
+//
+//    }
+    
+//    func displaySaveNotification() {
+//        let startConstant: CGFloat = self.collectionView.frame.height * 0.2 + 12
+//        UIView.animate(withDuration: 5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
+//
+//        } completion: { (successful) in
+//            UIView.animate(withDuration: 5, delay: 1, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseInOut) {
+//
+//            } completion: { (successful) in
+//                print("...displayed and then hid Save Notification")
+//            }
+//
+//        }
+//
+//    }
     
     
     @IBAction func didTapImageButton(_ sender: UIButton) {
@@ -358,13 +414,13 @@ class CreateOutfitContainerViewController: UIViewController, UICollectionViewDel
 }
 
 extension UIViewController {
-    func categoryFor(section: Int) -> Category {
-        let category = Categories[section]
+    func categoryFor(section: Int) -> fittedCategory {
+        let category = fittedCategories[section]
         return category
     }
     
     func getItem(forIndexPath: IndexPath, clothingItems: [String: [Clothing]]) -> Clothing? {
-        let sectionName = Categories[forIndexPath.section]
+        let sectionName = fittedCategories[forIndexPath.section]
         if let sectionItems = clothingItems[sectionName.name] {
             let selectedItem = sectionItems[forIndexPath.item]
             return selectedItem

@@ -73,7 +73,7 @@ class VirtualClosetCollectionViewController: UICollectionViewController, UIColle
         case 0:
             return 1
         case 1:
-            return Categories.count
+            return fittedCategories.count
         default:
             return 0
         }

@@ -14,38 +14,23 @@ class VirtualClosetViewController: UIViewController, UICollectionViewDelegate, U
     @IBOutlet weak var refreshButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
     
-    let itemsPerRow: CGFloat = 4
-    let headerHeight: CGFloat = 32
+//    let itemsPerRow: CGFloat = 4
+    let headerHeight: CGFloat = 42
     
     let coreDataManager = CoreDataManager()
     
     var Clothes: [String: [Clothing]] = [:]
     var Outfits: [Outfit] = []
     
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        coreDataManager.loadClothing { (successful, ClothingItems) in
-            if successful {
-                self.Clothes = ClothingItems
-            }
-        }
-        
-        coreDataManager.loadOutfits { (successful, outfits) in
-            if successful {
-                self.Outfits = outfits
-            }
-        }
         
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
         
-        collectionView.register(VirtualClosetCollectionViewCell.nib(), forCellWithReuseIdentifier: VirtualClosetCollectionViewCell.identifier)
-        collectionView.register(sectionHeaderReuseableView.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: sectionHeaderReuseableView.identifier)
-        collectionView.alwaysBounceVertical = true
+        setupCollectionView()
     }
 
     /*
@@ -58,12 +43,31 @@ class VirtualClosetViewController: UIViewController, UICollectionViewDelegate, U
     }
     */
     
+    override func viewWillAppear(_ animated: Bool) {
+        load()
+    }
+    
+    func load() {
+        // Do any additional setup after loading the view.
+        coreDataManager.loadClothing { (successful, ClothingItems) in
+            if successful {
+                self.Clothes = ClothingItems
+            }
+        }
+        
+        coreDataManager.loadOutfits { (successful, outfits) in
+            if successful {
+                self.Outfits = outfits
+            }
+        }
+    }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             return 1
         case 1:
-            return Categories.count
+            return fittedCategories.count
         default:
             return 0
         }
@@ -115,8 +119,21 @@ class VirtualClosetViewController: UIViewController, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let length = collectionView.frame.width/itemsPerRow
-        return CGSize(width: length, height: length)
+//        switch segmentedControl.selectedSegmentIndex {
+//        case 0:
+//            let length = collectionView.frame.width/2
+//            return CGSize(width: length, height: length * 1.5)
+//        case 1:
+//            let length = collectionView.frame.width/4
+//            return CGSize(width: length, height: length)
+//        default:
+//            return .zero
+//        }
+        
+        let length = collectionView.frame.width/2
+        return CGSize(width: length, height: length * 1.5)
+        
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -159,6 +176,15 @@ class VirtualClosetViewController: UIViewController, UICollectionViewDelegate, U
         
     }
     
+    fileprivate func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.register(VirtualClosetCollectionViewCell.nib(), forCellWithReuseIdentifier: VirtualClosetCollectionViewCell.identifier)
+        collectionView.register(sectionHeaderReuseableView.nib(), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: sectionHeaderReuseableView.identifier)
+        collectionView.alwaysBounceVertical = true
+    }
+    
     @IBAction func segmentTapped(_ sender: UISegmentedControl) {
         print("after tapped, index: \(sender.selectedSegmentIndex)")
         self.collectionView.reloadData()
@@ -168,4 +194,7 @@ class VirtualClosetViewController: UIViewController, UICollectionViewDelegate, U
         self.collectionView.reloadData()
     }
     
+    @IBAction func addItemButtonTapped(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "AddNewItemSegue", sender: self)
+    }
 }
